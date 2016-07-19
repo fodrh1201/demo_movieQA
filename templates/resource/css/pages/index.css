@@ -1,0 +1,83 @@
+.iu-center-box {
+  width:960px;
+}
+.iu-page {
+  min-width:960px;
+}
+.mqheader {
+  color:#333333;
+  height:120px;
+  left:0px;
+  position:relative;
+  top:0px;
+  width:100%;
+}
+.title {
+  bottom:0px;
+  color:#242424;
+  font-family:'Helvetica', sans-serif;
+  font-size:48px;
+  height:72px;
+  left:0px;
+  margin-bottom:auto;
+  margin-top:auto;
+  text-align:center;
+  top:0px;
+  width:100%;
+}
+.mqpage-content {
+  background-color:#FFFFFF;
+}
+.mqsection {
+  height:720px;
+}
+.mqpg-form {
+  height:126px;
+  left:299px;
+  top:-15px;
+  width:444px;
+}
+.mqpg-text-field {
+  border-color:#929292;
+  border-radius:5px;
+  border-width:1px;
+  height:37px;
+  left:7px;
+  padding-left:8px;
+  padding-right:8px;
+  top:21px;
+  width:200px;
+}
+.mqpg-button.iux-hover, .mqpg-button.iux-active {
+  background-color:#494949;
+  color:#DBDBDB;
+}
+.mqpg-button {
+  background-color:#DCDCDC;
+  border-radius:4px;
+  color:#6D6D6D;
+  height:40px;
+  left:239px;
+  top:21px;
+  width:100px;
+}
+.mqfooter {
+  height:120px;
+  left:0px;
+  position:relative;
+  top:0px;
+  width:100%;
+}
+.mqtext-5 {
+  bottom:0px;
+  color:#969696;
+  font-family:'Helvetica', sans-serif;
+  font-size:24px;
+  height:30px;
+  left:0px;
+  margin-bottom:auto;
+  margin-top:auto;
+  text-align:center;
+  top:0px;
+  width:100%;
+}
