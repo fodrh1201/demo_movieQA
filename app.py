@@ -1,13 +1,36 @@
 import tensorflow as tf
 from flask import Flask, render_template, request
 import os
+import json
+import pprint
 #import demo
 #import demo.main
 host = '0.0.0.0'
 port = 8999
 
+movie_info_path = '/data/movieQA/MovieQA_benchmark/data/movies.json'
+with open(movie_info_path, 'r') as f:
+    movie_info = json.load(f)
+
+qa_info_path = '/data/movieQA/MovieQA_benchmark/data/qa.json'
+with open(qa_info_path, 'r') as f:
+    qa_info = json.load(f)
+
+global qid_info
+qid_info = {}
+for info in qa_info:
+    qid_info[info['qid']] = info
+
+global movie_imdb
+movie_imdb = {}
+for info in movie_info:
+    movie_imdb[info['name']] = info['imdb_key']
+
+pprint.pprint(qid_info)
+
 global MOVIE_NAME
 MOVIE_NAME = 'Movie Name'
+
 ROOT_DIR = os.getcwd()
 ASSETS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates/resource')
 app = Flask(__name__, static_folder=ASSETS_DIR)
@@ -21,7 +44,7 @@ print(ASSETS_DIR)
 
 @app.route('/')
 def hello_name():
-    return render_template('index.html')
+    return render_template('index.html', MOVIE_NAME=MOVIE_NAME)
 
 
 @app.route("/result", methods=['POST', 'GET'])
@@ -30,7 +53,10 @@ def result():
     if request.method == 'POST':
         result = request.form
         MOVIE_NAME = result['movie_name']
-        movie_path = os.path.join('video_clips', result['movie_name'])
+        movie_path = os.path.join('video_clips', movie_imdb[MOVIE_NAME])
+        if not os.path.exists(movie_path):
+            MOVIE_NAME += ' NOT FOUND'
+            return render_template('index.html', MOVIE_NAME=MOVIE_NAME)
         try:
             video_clips = [clip for clip in os.listdir(os.path.join(ASSETS_DIR, movie_path))]
             clip_path = os.path.join('video_clips', result['movie_name'], video_clips[0])
