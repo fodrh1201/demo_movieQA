@@ -10,8 +10,6 @@ import data_loader as MovieQA
 import gensim_w2v
 import configs
 
-flags = configs.tf_flag()
-FLAGS = flags.FLAGS
 
 mqa = MovieQA.DataLoader()
 story, qa = mqa.get_story_qa_data('full', 'split_plot')
@@ -43,6 +41,9 @@ def prepare_data(query, imdb_key):
 
   return most_similar[0], s_embed, q_embed, a_embed
 
+flags = configs.tf_flag()
+FLAGS = flags.FLAGS
+print(FLAGS.__flags.items())
 def main(_):
   with tf.Session(config=tf.ConfigProto(
     gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.95),
@@ -51,6 +52,7 @@ def main(_):
     model.build_model(mode='inference', embedding_method='word2vec')
 
     qa_info, s, q, a = prepare_data('what is the name of the eaman', 'tt0147800')
+    print qa_info.qid
     data = s, q, a
     answer_index = model.inference(data)
     print 'answer_index >> ', answer_index[0]

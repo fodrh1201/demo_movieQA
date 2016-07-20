@@ -105,10 +105,10 @@ class MemN2N(object):
     # At Inference mode
     if mode == 'inference':
         if embedding_method == 'word2vec':
-            self.saver.restore(self.sess, './MN_shortcut/model.ckpt')
+            self.saver.restore(self.sess, './demo/MN_shortcut/model.ckpt')
         elif embedding_method == 'skip':
-            print 'Restoring model from ./MN_shortcut/skip_plot_40.ckpt'
-            self.saver.restore(self.sess, './MN_shortcut/skip_plot_40.ckpt')
+            print 'Restoring model from ./demo/MN_shortcut/skip_plot_40.ckpt'
+            self.saver.restore(self.sess, './demo/MN_shortcut/skip_plot_40.ckpt')
     else:
         tf.initialize_all_variables().run()
 
@@ -136,7 +136,7 @@ class MemN2N(object):
     if save_flag == True:
         self.saver = tf.train.Saver()
         self.saver.save(self.sess,
-                        './MN_shortcut/' +
+                        './demo/MN_shortcut/' +
                         str(self.embedding_method) +
                         '_plot_' + str(self.nstory) +
                         '_' + str(self.gamma) + '_' + str(step) + '.ckpt')
