@@ -46,14 +46,14 @@ def prepare_data(query, imdb_key):
 def main(_):
   with tf.Session(config=tf.ConfigProto(
     gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.95),
-    device_count={'GPU': 2})) as sess:
+    device_count={'GPU': 3})) as sess:
     model = MemN2N(FLAGS, sess)
     model.build_model(mode='inference', embedding_method='word2vec')
 
     qa_info, s, q, a = prepare_data('what is the name of the eaman', 'tt0147800')
     data = s, q, a
     answer_index = model.inference(data)
-    print(answer_index[0])
+    print 'answer_index >> ', answer_index[0]
 
 if __name__ == '__main__':
   tf.app.run()

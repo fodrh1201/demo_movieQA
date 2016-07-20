@@ -33,8 +33,8 @@ def sent_clip(nstory, embed, idim):
             tmp2[i,num_sent:,:] = pad_arr
         i += 1
 
-    print("clipped shape (train) >> ", end=" ")
-    print( tmp1.shape)
-    print( "clipped shape (val) >> ", end=" ")
-    print( tmp2.shape)
+    print "clipped shape (train) >> ",
+    print tmp1.shape
+    print "clipped shape (val) >> ",
+    print tmp2.shape
     return tmp1, tmp2

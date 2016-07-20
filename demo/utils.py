@@ -37,7 +37,7 @@ def evaluate(ANS, method, method_ans):
         else:
             correct.append(0)
     accuracy = 100.0 * sum(correct) / len(ANS)
-    print('%40s | acc. %.2f' %(method, accuracy))
+    print '%40s | acc. %.2f' %(method, accuracy)
     return correct, accuracy
 
 
@@ -84,7 +84,7 @@ def load_story_feature(imdb_key, story, feature):
     if feature.startswith('tfidf'):
         # TFIDF features are saved in sparse matrix format.
         with open(DOC_DESC_TEMPLATE % (story, feature, imdb_key), 'rb') as fid:
-            #try:
+            #try:    
             story_features = pkl.load(fid)
             #except:
             #    print imdb_key

@@ -74,10 +74,10 @@ class Dataset(object):
             self.zaj_val = w2v_embed['zaj_val']
             self.ground_truth_val = w2v_embed['ground_truth_val']
 
-            print( self.zq.shape)
-            print( self.zsl.shape)
-            print( self.zaj.shape)
-            print( self.ground_truth.shape)
+            print self.zq.shape
+            print self.zsl.shape
+            print self.zaj.shape
+            print self.ground_truth.shape
             assert self.zq.shape == (9566, 1, w2v_dim)
             assert self.zsl.shape == (9566, self.nstory, w2v_dim)
             assert self.zaj.shape == (9566, 5, w2v_dim)

@@ -107,7 +107,7 @@ class MemN2N(object):
         if embedding_method == 'word2vec':
             self.saver.restore(self.sess, './MN_shortcut/model.ckpt')
         elif embedding_method == 'skip':
-            print('Restoring model from ./MN_shortcut/skip_plot_40.ckpt')
+            print 'Restoring model from ./MN_shortcut/skip_plot_40.ckpt'
             self.saver.restore(self.sess, './MN_shortcut/skip_plot_40.ckpt')
     else:
         tf.initialize_all_variables().run()
@@ -140,7 +140,7 @@ class MemN2N(object):
                         str(self.embedding_method) +
                         '_plot_' + str(self.nstory) +
                         '_' + str(self.gamma) + '_' + str(step) + '.ckpt')
-        print( "model shortcut saved...")
+        print "model shortcut saved..."
     return loss
 
   def inference(self, inputs):
@@ -150,7 +150,7 @@ class MemN2N(object):
 
   def test(self, inputs):
     story, query, answer, target = inputs
-    print( '========================================================')
+    print '========================================================'
     loss, accuracy, reg_loss, data_loss = self.sess.run([self.average_loss, self.accuracy, self.reg_loss, self.data_loss],
                                 feed_dict={
                                   self.story: story,
@@ -159,10 +159,10 @@ class MemN2N(object):
                                   self.target: target,
                                   self.keep_prob: 1.0
                                   })
-    print( '| reg loss >> ', reg_loss)
-    print( '| data loss >> ', data_loss)
-    print( '| edim >> ', self.edim)
-    print( '| gamma >> ', self.gamma)
-    print( '| Validation loss: ', loss)
-    print( '[*] Accuracy >> ', accuracy)
+    print '| reg loss >> ', reg_loss
+    print '| data loss >> ', data_loss
+    print '| edim >> ', self.edim
+    print '| gamma >> ', self.gamma
+    print '| Validation loss: ', loss
+    print '[*] Accuracy >> ', accuracy
     return accuracy

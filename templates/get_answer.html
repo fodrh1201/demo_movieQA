@@ -49,9 +49,9 @@
               <input class="iux-has-hover iu-pg-button mqpg-button-19" type="submit" value="Query">
             </form>
             <table border = 1>
-              {% for key, clip_path in clips.items() %}
+              {% for i, clip_path in enumerate(clips) %}
                 <tr>
-                  <video class="iu-movie mqmovie-21" controls>
+                  <video class="iu-movie mqmovie-21" controls style="top:{{ 141*i + 164 }}px">
                     <source src="{{ clip_path }}" type="video/mp4">
                     <object data="{{ clip_path }}" width="100%" height="100%">
                       <embed width="100%" height="100%" src="{{ clip_path }}">

@@ -3,7 +3,7 @@ import numpy as np
 import word2vec
 import utils
 import math
-gensim_model = word2vec.load('movie_plots_1364.d-300.mc1.bin')
+gensim_model = word2vec.load('./demo/movie_plots_1364.d-300.mc1.bin')
 ignore_word_list = ['.', ',',':', '?', "'s"]
 w2v_dim = 300
 def encode_w2v_gensim(sentence):

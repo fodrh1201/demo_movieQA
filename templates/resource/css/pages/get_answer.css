@@ -33,6 +33,7 @@
 }
 .mqcenter-box-12 {
   overflow:hidden;
+  max-height:2000px;
 }
 .mqpg-form {
   height:126px;
@@ -113,13 +114,13 @@
   color:#B6B6B6;
 }
 .mqmovie-21 {
-  height:281px;
+  height:141px;
   left:0px;
   margin-left:auto;
   margin-right:auto;
   right:0px;
   top:164px;
-  width:481px;
+  width:241px;
 }
 .mqcell {
   height:29px;

@@ -2,9 +2,8 @@ import tensorflow as tf
 from flask import Flask, render_template, request
 import os
 import json
-import pprint
-#import demo
-#import demo.main
+import demo
+import demo.main
 host = '0.0.0.0'
 port = 8999
 
@@ -25,8 +24,6 @@ global movie_imdb
 movie_imdb = {}
 for info in movie_info:
     movie_imdb[info['name']] = info['imdb_key']
-
-pprint.pprint(qid_info)
 
 global MOVIE_NAME
 MOVIE_NAME = 'Movie Name'
@@ -54,12 +51,12 @@ def result():
         result = request.form
         MOVIE_NAME = result['movie_name']
         movie_path = os.path.join('video_clips', movie_imdb[MOVIE_NAME])
-        if not os.path.exists(movie_path):
+        if MOVIE_NAME not in movie_imdb.keys():
             MOVIE_NAME += ' NOT FOUND'
             return render_template('index.html', MOVIE_NAME=MOVIE_NAME)
         try:
             video_clips = [clip for clip in os.listdir(os.path.join(ASSETS_DIR, movie_path))]
-            clip_path = os.path.join('video_clips', result['movie_name'], video_clips[0])
+            clip_path = os.path.join('video_clips', movie_imdb[MOVIE_NAME], video_clips[0])
             return render_template('load_movie.html', clip_path=os.path.join('resource', clip_path), MOVIE_NAME=MOVIE_NAME)
         except:
             return render_template('load_movie.html', MOVIE_NAME=MOVIE_NAME, clip_path='')
@@ -71,16 +68,16 @@ def question():
     global MOVIE_NAME
     result = request.form
     query = result['question_text']
-    test_clips = {
-        'first': "tt0074285.sf-119927.ef-120198.video.mp4",
-        'second': "tt0074285.sf-119927.ef-120198.video.mp4",
-        'third': "tt0074285.sf-119927.ef-120198.video.mp4"
-    }
+    test_clips = [
+        "tt0074285.sf-119927.ef-120198.video.mp4",
+        "tt0074285.sf-119927.ef-120198.video.mp4",
+        "tt0074285.sf-119927.ef-120198.video.mp4"
+    ]
     answer = 'answer!!!!!'
-    for key, clip in test_clips.items():
-        test_clips[key] = os.path.join('resource', 'video_clips', 'tt0074285', clip)
+    for i, clip in enumerate(test_clips):
+        test_clips[i] = os.path.join('resource', 'video_clips', 'tt0074285', clip)
 
-    return render_template('get_answer.html', answer=answer, clips=test_clips, QUESTION=query, MOVIE_NAME=MOVIE_NAME)
+    return render_template('get_answer.html', enumerate=enumerate, answer=answer, clips=test_clips, QUESTION=query, MOVIE_NAME=MOVIE_NAME)
 
 if __name__ == '__main__':
     app.run(host=host, port=port, debug=True)
