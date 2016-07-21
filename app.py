@@ -64,16 +64,17 @@ def result():
     if request.method == 'POST':
         result = request.form
         MOVIE_NAME = result['movie_name']
-        movie_path = os.path.join('video_clips', movie_imdb[MOVIE_NAME])
         if MOVIE_NAME not in movie_imdb.keys():
             MOVIE_NAME += ' NOT FOUND'
             return render_template('index.html', MOVIE_NAME=MOVIE_NAME, clip_path='')
+        movie_path = os.path.join('video_clips', movie_imdb[MOVIE_NAME])
         print 'imdb >>', movie_imdb[MOVIE_NAME]
         try:
             video_clips = [clip for clip in os.listdir(os.path.join(ASSETS_DIR, movie_path))]
             clip_path = os.path.join('video_clips', movie_imdb[MOVIE_NAME], video_clips[0])
             return render_template('load_movie.html', clip_path=os.path.join('resource', clip_path), MOVIE_NAME=MOVIE_NAME)
         except:
+            MOVIE_NAME += ' is not supported movie.'
             return render_template('load_movie.html', MOVIE_NAME=MOVIE_NAME, clip_path='')
     return render_template('load_movie.html')
 
@@ -86,11 +87,12 @@ def question():
 
     qa_info, s, q, a = prepare_data(query, movie_imdb[MOVIE_NAME])
     data = s, q, a
+    print qa_info
     answer_index = model.inference(data)
     clips = qa_info.video_clips
     answer = qa_info.answers[answer_index[0]]
+    print answer
 
-    print(qa_info)
     for i, clip in enumerate(clips):
         clips[i] = os.path.join('resource', 'video_clips', movie_imdb[MOVIE_NAME], clip)
 
