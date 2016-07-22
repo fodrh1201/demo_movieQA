@@ -93,10 +93,11 @@ def question():
     answer = qa_info.answers[answer_index[0]]
     print answer
 
+    new_clips = []
     for i, clip in enumerate(clips):
-        clips[i] = os.path.join('resource', 'video_clips', movie_imdb[MOVIE_NAME], clip)
+        new_clips.append(os.path.join('resource', 'video_clips', movie_imdb[MOVIE_NAME], clip))
 
-    return render_template('get_answer.html', enumerate=enumerate, answer=answer, clips=clips, QUESTION=query, MOVIE_NAME=MOVIE_NAME)
+    return render_template('get_answer.html', enumerate=enumerate, answer=answer, clips=new_clips, QUESTION=query, MOVIE_NAME=MOVIE_NAME)
 
 if __name__ == '__main__':
     app.run(host=host, port=port)
