@@ -28,7 +28,7 @@ def prepare_data(query, imdb_key):
   candidate_qa = [QAInfo for QAInfo in qa if QAInfo.imdb_key == imdb_key]
   skip_encode = list()
   for QAInfo in candidate_qa:
-    try: skip_encode.append(qa_representation[QAInfo.qid]['q'])
+    try: skip_encode.append(qa_representation[QAInfo.qid])
     except: pass
   similarity = [(np.inner(query_representation, rep)[0][0], i) for i, rep in enumerate(skip_encode)]
   similarity.sort(reverse=True)
