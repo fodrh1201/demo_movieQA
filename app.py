@@ -3,7 +3,6 @@ from flask import Flask, render_template, request
 import os
 import json
 import demo
-import demo.configs
 
 from demo.main import prepare_data
 from demo.model import MemN2N
@@ -36,7 +35,6 @@ MOVIE_NAME = 'Movie Name'
 ROOT_DIR = os.getcwd()
 ASSETS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates/resource')
 app = Flask(__name__, static_folder=ASSETS_DIR)
-print(ASSETS_DIR)
 
 FLAGS = demo.main.FLAGS
 
@@ -45,12 +43,9 @@ global model
 
 sess = tf.Session(config=tf.ConfigProto(
     gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.95),
-    device_count={'GPU': 3}))
+    device_count={'GPU': 1}))
 model = MemN2N(FLAGS, sess)
 model.build_model(mode='inference', embedding_method='word2vec')
-#@app.route('/hello/<user>')
-#def hello_name(user):
-#    return render_template('hello.html', name=user)
 
 
 @app.route('/')
@@ -68,7 +63,6 @@ def result():
             MOVIE_NAME += ' NOT FOUND'
             return render_template('index.html', MOVIE_NAME=MOVIE_NAME, clip_path='')
         movie_path = os.path.join('video_clips', movie_imdb[MOVIE_NAME])
-        print 'imdb >>', movie_imdb[MOVIE_NAME]
         try:
             video_clips = [clip for clip in os.listdir(os.path.join(ASSETS_DIR, movie_path))]
             clip_path = os.path.join('video_clips', movie_imdb[MOVIE_NAME], video_clips[0])
@@ -91,7 +85,6 @@ def question():
     answer_index = model.inference(data)
     clips = qa_info.video_clips
     answer = qa_info.answers[answer_index[0]]
-    print answer
 
     new_clips = []
     for i, clip in enumerate(clips):
