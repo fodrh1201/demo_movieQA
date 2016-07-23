@@ -1,4 +1,6 @@
 from model import MemN2N
+from IPython import embed
+from hickle import *
 import tensorflow as tf
 import data_unit
 import sys
@@ -9,7 +11,12 @@ import skipthoughts as skip
 import data_loader as MovieQA
 import gensim_w2v
 import configs
+import time
+flags = configs.tf_flag()
+FLAGS = flags.FLAGS
 
+
+qa_representation = load('/data/movieQA/skip_full.hkl')
 
 mqa = MovieQA.DataLoader()
 story, qa = mqa.get_story_qa_data('full', 'split_plot')
@@ -19,7 +26,10 @@ INF = 987654321
 def prepare_data(query, imdb_key):
   query_representation = skip.encode(skip_model, [query])
   candidate_qa = [QAInfo for QAInfo in qa if QAInfo.imdb_key == imdb_key]
-  skip_encode = [skip.encode(skip_model, [QAInfo.question.lower()]) for QAInfo in candidate_qa]
+  skip_encode = list()
+  for QAInfo in candidate_qa:
+    try: skip_encode.append(qa_representation[QAInfo.qid]['q'])
+    except: pass
   similarity = [(np.inner(query_representation, rep)[0][0], i) for i, rep in enumerate(skip_encode)]
   similarity.sort(reverse=True)
   most_similar = [candidate_qa[i] for score, i in similarity[:1]]
@@ -38,21 +48,19 @@ def prepare_data(query, imdb_key):
   s_embed = np.reshape(s_embed, (1, 60, 300))
   q_embed = np.reshape(q_embed, (1, 1, 300))
   a_embed = np.reshape(a_embed, (1, 5, 300))
-
   return most_similar[0], s_embed, q_embed, a_embed
 
-flags = configs.tf_flag()
-FLAGS = flags.FLAGS
-print(FLAGS.__flags.items())
 def main(_):
   with tf.Session(config=tf.ConfigProto(
     gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.95),
-    device_count={'GPU': 3})) as sess:
+    device_count={'GPU': 2})) as sess:
     model = MemN2N(FLAGS, sess)
     model.build_model(mode='inference', embedding_method='word2vec')
 
-    qa_info, s, q, a = prepare_data('what is the name of the eaman', 'tt0147800')
-    print qa_info.qid
+    s_t = time.time()
+    qa_info, s, q, a = prepare_data('what is the name of the eaman', 'tt0147800', qa_representation)
+    e_t = time.time()
+    print 'execution time >> ', (e_t-s_t)
     data = s, q, a
     answer_index = model.inference(data)
     print 'answer_index >> ', answer_index[0]
