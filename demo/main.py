@@ -58,11 +58,12 @@ def main(_):
     model.build_model(mode='inference', embedding_method='word2vec')
 
     s_t = time.time()
-    qa_info, s, q, a = prepare_data('what is the name of the eaman', 'tt0147800', qa_representation)
+    qa_info, s, q, a = prepare_data('what is the name of the eaman', 'tt0147800')
     e_t = time.time()
     print 'execution time >> ', (e_t-s_t)
     data = s, q, a
     answer_index = model.inference(data)
+    print qa_info
     print 'answer_index >> ', answer_index[0]
 
 if __name__ == '__main__':
