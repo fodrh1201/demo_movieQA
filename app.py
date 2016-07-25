@@ -43,7 +43,7 @@ global model
 
 sess = tf.Session(config=tf.ConfigProto(
     gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.95),
-    device_count={'GPU': 1}))
+    device_count={'GPU': 3}))
 model = MemN2N(FLAGS, sess)
 model.build_model(mode='inference', embedding_method='word2vec')
 
